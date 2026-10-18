@@ -1,0 +1,167 @@
+:root {
+  --fundo: #fff7e6;
+  --tinta: #3a2e5a;
+  --roxo: #7c4dff;
+  --verde: #2fbf71;
+  --azul: #3b82f6;
+  --amarelo: #ffc531;
+  --rosa: #ff6b9d;
+  --laranja: #ff9f1c;
+  --vermelho: #ff5c5c;
+  --cartao: #ffffff;
+  --sombra: 0 6px 0 rgba(58, 46, 90, 0.15);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: 'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--tinta);
+  background: radial-gradient(circle at 10% 10%, #ffe3f1 0, transparent 40%),
+              radial-gradient(circle at 90% 20%, #dff1ff 0, transparent 40%),
+              var(--fundo);
+  min-height: 100vh;
+}
+
+/* ---------- topo ---------- */
+.topo {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px; background: var(--roxo); color: #fff; flex-wrap: wrap;
+}
+.topo h1 { margin: 0; font-size: 1.6rem; font-weight: 800; flex: 1; text-align: center; }
+.topo-direita { display: flex; align-items: center; gap: 10px; }
+.estrelas { background: #fff; color: var(--tinta); padding: 4px 14px; border-radius: 999px; font-weight: 800; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+/* ---------- botões ---------- */
+.btn {
+  font: inherit; font-weight: 800; font-size: 1.1rem; color: #fff; border: 0;
+  padding: 10px 22px; min-height: 48px; border-radius: 16px; cursor: pointer;
+  box-shadow: var(--sombra); transition: transform .1s;
+}
+.btn:active { transform: translateY(4px); box-shadow: none; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn-pequeno { background: rgba(255, 255, 255, .25); padding: 6px 14px; min-height: 40px; box-shadow: none; }
+.btn-verde { background: var(--verde); }
+.btn-azul { background: var(--azul); }
+.btn-amarelo { background: var(--amarelo); color: var(--tinta); }
+
+.pulsar { animation: pulsar 0.9s infinite; }
+@keyframes pulsar { 50% { transform: scale(1.08); } }
+
+/* ---------- menu ---------- */
+.mascote { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 24px 0; flex-wrap: wrap; }
+.coruja { font-size: 6rem; animation: bamboleio 3s ease-in-out infinite; }
+@keyframes bamboleio { 50% { transform: rotate(8deg); } }
+.balao {
+  background: #fff; border: 4px solid var(--roxo); border-radius: 24px;
+  padding: 14px 22px; font-size: 1.5rem; font-weight: 800; max-width: 420px;
+}
+.cartoes { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+.cartao {
+  font: inherit; color: #fff; border: 0; border-radius: 32px; width: 320px; max-width: 100%;
+  padding: 28px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  box-shadow: 0 10px 0 rgba(58, 46, 90, 0.2); transition: transform .15s;
+}
+.cartao:hover { transform: translateY(-4px) rotate(-1deg); }
+.cartao-relogio { background: var(--rosa); }
+.cartao-calendario { background: var(--azul); }
+.cartao-icone { font-size: 5rem; }
+.cartao-titulo { font-size: 2rem; font-weight: 800; }
+.cartao-texto { font-size: 1.2rem; }
+
+/* ---------- partes comuns ---------- */
+.pergunta { font-size: 1.5rem; font-weight: 800; margin: 0 0 8px; }
+.pergunta-grande { font-size: 1.9rem; margin: 0; }
+.feedback { min-height: 3.2em; margin: 8px 0; font-size: 1.25rem; font-weight: 700; padding: 8px 14px; border-radius: 16px; }
+.feedback:empty { visibility: hidden; }
+.feedback.certo { background: #d9f7e6; color: #136c3c; }
+.feedback.errado { background: #ffe1e1; color: #a02020; }
+.feedback.dica { background: #fff3c4; color: #7a5a00; }
+.acoes { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 8px 0; }
+.opcoes { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; font-size: 1rem; }
+.opcoes label, .opcoes-linha { display: flex; align-items: center; gap: 8px; }
+.opcoes input[type=checkbox] { width: 22px; height: 22px; }
+.desativado { opacity: .5; }
+select { font: inherit; font-size: 1rem; padding: 6px 10px; border-radius: 12px; border: 3px solid var(--roxo); background: #fff; color: var(--tinta); }
+
+/* ---------- relógio ---------- */
+.separadores { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+.separador {
+  font: inherit; font-weight: 800; font-size: 1.2rem; border: 4px solid var(--roxo); background: #fff;
+  color: var(--roxo); padding: 8px 20px; border-radius: 999px; cursor: pointer;
+}
+.separador.ativo { background: var(--roxo); color: #fff; }
+.relogio-layout { display: flex; gap: 28px; align-items: center; justify-content: center; flex-wrap: wrap; }
+#relogio-svg { width: min(92vw, 460px); height: auto; touch-action: none; user-select: none; -webkit-user-select: none; }
+.painel { flex: 1; min-width: 280px; max-width: 460px; background: var(--cartao); border-radius: 28px; padding: 20px; box-shadow: var(--sombra); }
+.hora-digital { font-size: 3.4rem; font-weight: 800; margin: 0; color: var(--rosa); letter-spacing: 3px; line-height: 1.1; }
+.extenso { font-size: 1.3rem; margin: 0 0 8px; }
+.resposta { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.resposta input {
+  font: inherit; font-weight: 800; font-size: 2rem; width: 8ch; text-align: center;
+  padding: 6px 10px; border: 4px solid var(--azul); border-radius: 16px; color: var(--tinta);
+}
+
+.rel-borda { fill: var(--roxo); }
+.rel-face { fill: #fff; }
+.rel-marca { stroke: #b9b0d6; stroke-width: 1; }
+.rel-marca-grande { stroke: var(--tinta); stroke-width: 2.5; stroke-linecap: round; }
+.rel-num { font: 800 22px 'Baloo 2', sans-serif; fill: var(--tinta); }
+.rel-num-min { font: 700 10px 'Baloo 2', sans-serif; fill: #fff; }
+.sem-minutos .rel-minutos { display: none; }
+.mao-linha { stroke-linecap: round; }
+.mao-horas .mao-linha { stroke: var(--rosa); stroke-width: 9; }
+.mao-minutos .mao-linha { stroke: var(--azul); stroke-width: 5; }
+.mao-pega { fill: transparent; }
+.arrastavel .mao-pega { fill: rgba(255, 197, 49, .85); stroke: #fff; stroke-width: 2; cursor: grab; }
+.arrastavel { cursor: pointer; }
+.rel-centro { fill: var(--tinta); }
+.mao.destaque .mao-linha { animation: brilho .8s infinite alternate; }
+@keyframes brilho { to { stroke: var(--amarelo); } }
+
+/* ---------- calendário ---------- */
+.pergunta-caixa {
+  display: flex; align-items: center; gap: 14px; background: #fff; border: 4px solid var(--azul);
+  border-radius: 28px; padding: 14px 20px; box-shadow: var(--sombra);
+}
+.coruja-pequena { font-size: 3rem; }
+.ano { text-align: center; font-size: 2rem; margin: 16px 0 8px; }
+.meses { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+.mes { background: #fff; border-radius: 24px; padding: 10px 12px 14px; box-shadow: var(--sombra); border: 4px solid transparent; }
+.mes h3 { margin: 0 0 6px; text-align: center; color: var(--roxo); font-size: 1.4rem; font-weight: 800; }
+.grelha-mes { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; }
+.cab-dia { font-size: .8rem; font-weight: 800; color: var(--tinta); }
+.cab-dia.fds { color: var(--rosa); }
+.dia {
+  font: inherit; font-weight: 700; font-size: 1rem; aspect-ratio: 1; min-height: 32px; padding: 0;
+  border: 0; border-radius: 10px; background: #f0ecff; color: var(--tinta); cursor: pointer;
+}
+.dia.fds { background: #ffe7f0; }
+.dia:hover { background: var(--amarelo); }
+.dia.errado { background: var(--vermelho); color: #fff; animation: abanar .35s; }
+.dia.certo { background: var(--verde); color: #fff; transform: scale(1.15); }
+@keyframes abanar { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.mes.dica-mes { border-color: var(--amarelo); animation: pulsar 1s infinite; }
+
+/* ---------- confetes ---------- */
+.confete {
+  position: fixed; top: -12px; width: 10px; height: 16px; border-radius: 2px; z-index: 99; pointer-events: none;
+  animation: cair 1.8s ease-in forwards;
+}
+@keyframes cair { to { transform: translate(var(--dx), 105vh) rotate(720deg); } }
+
+@media (max-width: 560px) {
+  .topo h1 { font-size: 1.25rem; order: -1; width: 100%; flex: none; }
+  .hora-digital { font-size: 2.6rem; }
+  .pergunta-grande { font-size: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
