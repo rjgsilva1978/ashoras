@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  const { $, store, mostrar } = App;
+  const { $ } = App;
   const ano = new Date().getFullYear();
   const ACERTOS_PARA_SUBIR = 4;
   const DIAS_CURTOS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom'];
@@ -12,7 +12,7 @@
     nivel: $('#cal-nivel'), seguinte: $('#cal-seguinte'),
   };
 
-  let nivel = store.get('nivelCalendario', 1);
+  let nivel = 1;
   let seguidos = 0;
   let questao = null;
   let tentativas = 0;
@@ -68,6 +68,7 @@
     resolvida = false;
     el.pergunta.textContent = questao.text;
     el.seguinte.classList.remove('pulsar');
+    el.seguinte.disabled = true;
   }
 
   function dar(msg, classe) {
@@ -92,7 +93,6 @@
       if (seguidos >= ACERTOS_PARA_SUBIR && nivel < Logic.NIVEIS_CALENDARIO) {
         nivel++;
         seguidos = 0;
-        store.set('nivelCalendario', nivel);
         el.nivel.value = nivel;
         extra = `Subiste para o nível ${nivel}! 🎈`;
       }
@@ -100,19 +100,15 @@
       b.classList.add('certo');
       dar(App.acerto(extra), 'certo');
       el.seguinte.classList.add('pulsar');
+      el.seguinte.disabled = false;
       return;
     }
     seguidos = 0;
     tentativas++;
     b.classList.add('errado');
-    if (tentativas === 2) {
+    if (tentativas >= 2) {
       mostrarMes();
       dar(App.erro() + ' Procura neste mês! 👀', 'errado');
-    } else if (tentativas >= 3) {
-      resolvida = true;
-      botaoDia(questao.date).classList.add('certo');
-      dar('Era este dia! Vamos tentar outra pergunta. 😊', 'dica');
-      el.seguinte.classList.add('pulsar');
     } else {
       dar(App.erro(), 'errado');
     }
@@ -124,14 +120,12 @@
     dar('💡 O dia está no mês que está a brilhar!', 'dica');
   });
   el.seguinte.addEventListener('click', novaPergunta);
+  // Mudar de nível só vale a partir da próxima pergunta (não permite saltar a atual).
   el.nivel.addEventListener('change', () => {
     nivel = +el.nivel.value;
     seguidos = 0;
-    store.set('nivelCalendario', nivel);
-    novaPergunta();
   });
 
   el.nivel.value = nivel;
-  document.addEventListener('vista', (e) => { if (e.detail === 'calendario') window.scrollTo(0, 0); });
   novaPergunta();
 })();

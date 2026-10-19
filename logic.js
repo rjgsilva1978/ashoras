@@ -77,32 +77,34 @@
     ],
     4: [
       (y, r) => {
-        const q = rint(1, 4, r), mi = rint(1, 3, r), wd = rint(0, 6, r), n = rint(1, 4, r), f = DIA_FEMININO[wd];
-        const m = (q - 1) * 3 + mi - 1;
+        const m = rint(0, 11, r), wd = rint(0, 6, r), n = rint(1, 4, r), f = DIA_FEMININO[wd];
         return {
-          text: `Clica ${f ? 'na' : 'no'} ${ord(n, f)} ${DIAS[wd]} do ${ord(mi)} mês do ${ord(q)} trimestre.`,
+          text: `Clica ${f ? 'na' : 'no'} ${ord(n, f)} ${DIAS[wd]} do ${ord(m + 1)} mês do ano.`,
           date: nthWeekday(y, m, wd, n),
         };
       },
       (y, r) => {
-        const q = rint(1, 4, r), mi = rint(1, 3, r), wd = rint(0, 6, r), n = rint(1, 4, r), k = rint(1, 6, r);
+        const m = rint(0, 11, r), wd = rint(0, 6, r), n = rint(1, 4, r), k = rint(1, 6, r);
         const f = DIA_FEMININO[wd], antes = r() < 0.5;
-        const m = (q - 1) * 3 + mi - 1;
         return {
-          text: `Clica no ${ord(k)} dia ${antes ? 'antes' : 'depois'} ${f ? 'da' : 'do'} ${ord(n, f)} ${DIAS[wd]} do ${ord(mi)} mês do ${ord(q)} trimestre.`,
+          text: `Clica no ${ord(k)} dia ${antes ? 'antes' : 'depois'} ${f ? 'da' : 'do'} ${ord(n, f)} ${DIAS[wd]} do ${ord(m + 1)} mês do ano.`,
           date: addDays(nthWeekday(y, m, wd, n), antes ? -k : k),
         };
       },
       (y, r) => {
-        const q = rint(1, 4, r), mi = rint(1, 3, r), m = (q - 1) * 3 + mi - 1, d = rint(1, daysIn(y, m), r);
-        return { text: `Clica no ${ord(d)} dia do ${ord(mi)} mês do ${ord(q)} trimestre.`, date: new Date(y, m, d) };
+        const m = rint(0, 11, r), wd = rint(0, 6, r), f = DIA_FEMININO[wd];
+        return {
+          text: `Clica ${f ? 'na última' : 'no último'} ${DIAS[wd]} do ${ord(m + 1)} mês do ano.`,
+          date: lastWeekday(y, m, wd),
+        };
       },
       (y, r) => {
-        const q = rint(1, 4, r), ultimo = r() < 0.5, m = (q - 1) * 3 + (ultimo ? 2 : 0);
-        return {
-          text: `Clica no ${ultimo ? 'último' : '1.º'} dia do ${ord(q)} trimestre.`,
-          date: new Date(y, m, ultimo ? daysIn(y, m) : 1),
-        };
+        const m = rint(0, 11, r);
+        return { text: `Clica no último dia do ${ord(m + 1)} mês do ano.`, date: new Date(y, m, daysIn(y, m)) };
+      },
+      (y, r) => {
+        const m = rint(0, 10, r);
+        return { text: `Clica no dia seguinte ao último dia do ${ord(m + 1)} mês do ano.`, date: new Date(y, m + 1, 1) };
       },
     ],
   };

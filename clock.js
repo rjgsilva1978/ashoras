@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  const { $, store, mostrar } = App;
+  const { $ } = App;
   const NS = 'http://www.w3.org/2000/svg';
   const MAX_NIVEL = 5;
   const ACERTOS_PARA_SUBIR = 5;
@@ -17,7 +17,7 @@
   };
 
   let modo = 'ler';
-  let nivel = store.get('nivelRelogio', 1);
+  let nivel = 1;
   let seguidos = 0;
   let alvo = { h: 3, m: 0 };
   let pm = false;
@@ -82,14 +82,19 @@
     gMinutos.classList.remove('destaque');
   }
 
-  function novaPergunta() {
+  // manter=true: repete a mesma hora (ex.: ao mudar de modo) se ainda não foi acertada.
+  function novaPergunta(manter) {
     limparFeedback();
-    alvo = Logic.randomTime(nivel);
-    pm = Math.random() < 0.5;
+    if (!(manter && !resolvido)) {
+      alvo = Logic.randomTime(nivel);
+      pm = Math.random() < 0.5;
+    }
     tentativas = 0;
     resolvido = false;
     el.seguinte.classList.remove('pulsar');
+    el.seguinte.disabled = true;
     el.verificar.disabled = false;
+    verificarMaos.disabled = false;
     el.input.disabled = false;
     el.input.value = '';
 
@@ -135,14 +140,15 @@
       if (seguidos >= ACERTOS_PARA_SUBIR && nivel < MAX_NIVEL) {
         nivel++;
         seguidos = 0;
-        store.set('nivelRelogio', nivel);
         el.nivel.value = nivel;
         extra = `Subiste para o nível ${nivel}! 🎈`;
       }
       el.feedback.textContent = App.acerto(extra);
       el.feedback.className = 'feedback certo';
       el.seguinte.classList.add('pulsar');
+      el.seguinte.disabled = false;
       el.verificar.disabled = true;
+      verificarMaos.disabled = true;
       el.input.disabled = true;
     } else {
       seguidos = 0;
@@ -183,16 +189,15 @@
     el.feedback.textContent = '💡 ' + dicaTexto();
     el.feedback.className = 'feedback dica';
   });
-  el.seguinte.addEventListener('click', novaPergunta);
+  el.seguinte.addEventListener('click', () => novaPergunta());
 
+  // Mudar de nível só vale a partir da próxima pergunta (não permite saltar a atual).
   el.nivel.addEventListener('change', () => {
     nivel = +el.nivel.value;
     seguidos = 0;
-    store.set('nivelRelogio', nivel);
     atualizarOpcoes();
-    novaPergunta();
   });
-  el.check24.addEventListener('change', novaPergunta);
+  el.check24.addEventListener('change', () => novaPergunta(true));
   el.minutos.addEventListener('change', () => svg.classList.toggle('sem-minutos', !el.minutos.checked));
 
   document.querySelectorAll('.separador').forEach((b) =>
@@ -200,7 +205,7 @@
       modo = b.dataset.modo;
       document.querySelectorAll('.separador').forEach((x) => x.classList.toggle('ativo', x === b));
       verificarMaos.hidden = modo !== 'por';
-      novaPergunta();
+      novaPergunta(true);
     }));
 
   function atualizarOpcoes() {
@@ -238,7 +243,7 @@
       mao.m = novo;
     } else {
       const h = Math.round((a.graus - mao.m * 0.5) / 30) % 12;
-      mao.h = h === 0 ? 12 : (h + 12) % 12 || 12;
+      mao.h = h === 0 ? 12 : h;
     }
     desenharMaos();
   }
@@ -260,6 +265,5 @@
   // ---------- arranque ----------
   el.nivel.value = nivel;
   atualizarOpcoes();
-  document.addEventListener('vista', (e) => { if (e.detail === 'relogio') novaPergunta(); });
   novaPergunta();
 })();

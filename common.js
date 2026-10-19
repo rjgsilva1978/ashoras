@@ -8,20 +8,9 @@
   const ELOGIOS = ['Muito bem! 🎉', 'Fantástico! 🌟', 'Boa! 👏', 'És uma craque! 🏆', 'Parabéns! 🥳', 'Excelente! 🚀', 'Isso mesmo! ✨'];
   const INCENTIVOS = ['Quase! Tenta outra vez. 💪', 'Ups! Olha com atenção. 🔍', 'Não desistas, tu consegues! 🌈'];
 
-  const store = {
-    get(chave, defeito) {
-      try {
-        const v = localStorage.getItem('ashoras.' + chave);
-        return v === null ? defeito : JSON.parse(v);
-      } catch (e) { return defeito; }
-    },
-    set(chave, valor) {
-      try { localStorage.setItem('ashoras.' + chave, JSON.stringify(valor)); } catch (e) { /* sem armazenamento */ }
-    },
-  };
-
-  let estrelas = store.get('estrelas', 0);
-  let semSom = store.get('semSom', false);
+  // Estrelas e níveis vivem só em memória: ao abrir/recarregar a página, recomeça tudo.
+  let estrelas = 0;
+  let semSom = false;
   let audio = null;
 
   function renderEstrelas() { $('#estrelas').textContent = estrelas; }
@@ -68,10 +57,9 @@
   }
 
   const App = {
-    $, pick, store, mostrar,
+    $, pick, mostrar,
     acerto(mensagemExtra) {
       estrelas++;
-      store.set('estrelas', estrelas);
       renderEstrelas();
       confetes();
       tocar([523, 659, 784]);
@@ -89,7 +77,6 @@
   $('#btn-inicio').addEventListener('click', () => mostrar('menu'));
   $('#btn-som').addEventListener('click', () => {
     semSom = !semSom;
-    store.set('semSom', semSom);
     renderSom();
   });
 

@@ -7,4 +7,4 @@ App em português de Portugal para aprender as horas (relógio analógico) e o c
 
 ## Usar
 Abrir `index.html` no browser (ou `python3 -m http.server`). Funciona também no GitHub Pages.
-O nível e as estrelas ficam guardados no browser.
+As estrelas e os níveis não ficam guardados: ao recarregar a página recomeça tudo.
