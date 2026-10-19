@@ -113,8 +113,6 @@ select { font: inherit; font-size: 1rem; padding: 6px 10px; border-radius: 12px;
 .rel-marca { stroke: #b9b0d6; stroke-width: 1; }
 .rel-marca-grande { stroke: var(--tinta); stroke-width: 2.5; stroke-linecap: round; }
 .rel-num { font: 800 22px 'Baloo 2', sans-serif; fill: var(--tinta); }
-.rel-num-min { font: 700 10px 'Baloo 2', sans-serif; fill: #fff; }
-.sem-minutos .rel-minutos { display: none; }
 .mao-linha { stroke-linecap: round; }
 .mao-horas .mao-linha { stroke: var(--rosa); stroke-width: 9; }
 .mao-minutos .mao-linha { stroke: var(--azul); stroke-width: 5; }

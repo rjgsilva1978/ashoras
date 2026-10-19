@@ -13,7 +13,7 @@
     pergunta: $('#relogio-pergunta'), alvo: $('#relogio-alvo'), extenso: $('#relogio-extenso'),
     form: $('#relogio-form'), input: $('#relogio-input'), feedback: $('#relogio-feedback'),
     nivel: $('#relogio-nivel'), check24: $('#relogio-24'), label24: $('#relogio-label-24'),
-    minutos: $('#relogio-minutos'), seguinte: $('#relogio-seguinte'), verificar: $('#relogio-verificar'),
+    seguinte: $('#relogio-seguinte'), verificar: $('#relogio-verificar'),
   };
 
   let modo = 'ler';
@@ -51,12 +51,6 @@
     const [x, y] = polar(76, n * 30);
     const t = criar('text', { x, y, class: 'rel-num', 'text-anchor': 'middle', 'dominant-baseline': 'central' });
     t.textContent = n;
-  }
-  const rotMin = criar('g', { class: 'rel-minutos' });
-  for (let n = 1; n <= 12; n++) {
-    const [x, y] = polar(115, n * 30);
-    const t = criar('text', { x, y, class: 'rel-num-min', 'text-anchor': 'middle', 'dominant-baseline': 'central' }, rotMin);
-    t.textContent = (n * 5) % 60;
   }
 
   const gHoras = criar('g', { class: 'mao mao-horas' });
@@ -198,7 +192,6 @@
     atualizarOpcoes();
   });
   el.check24.addEventListener('change', () => novaPergunta(true));
-  el.minutos.addEventListener('change', () => svg.classList.toggle('sem-minutos', !el.minutos.checked));
 
   document.querySelectorAll('.separador').forEach((b) =>
     b.addEventListener('click', () => {
